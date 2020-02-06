@@ -7,18 +7,25 @@ class Player{
         string face;
         void Move(char input)
         {
-            switch(input) {
-                case "w"  :
+            int inputNumber, newInput;
+
+            if (input=='w') inputNumber=0;
+            if (input=='s') inputNumber=1;
+            if (input=='a') inputNumber=2;
+            if (input=='d') inputNumber=3;
+            
+            switch(inputNumber) {                      //0 is up, 1 is down, 2 is left, 3 is right
+                case 0  :
+                    x-=1;
+                    break; //optional
+                case 1  :
+                    x+=1;
+                    break; //optional
+                case 2  :
+                    y-=1;
+                    break; //optional
+                case 3  :
                     y+=1;
-                    break; //optional
-                case "s"  :
-                    cout<<"down";
-                    break; //optional
-                case "a"  :
-                    cout<<"left";
-                    break; //optional
-                case "d"  :
-                    cout<<"right";
                     break; //optional
                 default :
                     cout << "Invalid option" << endl; }
@@ -29,6 +36,8 @@ class Player{
                 else cout<<map[i][j];  }
     cout<<endl;   
 }
+    cin>>newInput;
+    Move(newInput);
     }
 };
 int main()
@@ -60,5 +69,5 @@ int main()
    cout<<endl;
    cout<<endl;
 
-    player.Move("w");
+    player.Move('d');
 }
