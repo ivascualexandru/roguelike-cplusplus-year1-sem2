@@ -3,7 +3,7 @@
 int x = 1;
 int y = 1;
 
-char map[15][15] = {
+char map[15][15] = {			//static map in array
 	"**************",
 	"*@           *",
 	"*            *",
