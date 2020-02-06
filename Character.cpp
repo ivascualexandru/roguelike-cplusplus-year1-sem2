@@ -31,9 +31,9 @@ void Character::Movement(int Vertical, int Horizontal)
 
 
 
-	if (map[y2][x] == 'o') // if player moves vertically the space before becomes an empty space and the space moved to becomes '@'
+	if (map[y2][x] == ' ') // if player moves vertically the space before becomes an empty space and the space moved to becomes '@'
 	{
-		map[y][x] = 'o';
+		map[y][x] = ' ';
 		y += Vertical;
 		map[y][x] = '@';
 	}
