@@ -1,13 +1,10 @@
 #include "Character.h"
 
-int x = 1;
-int y = 1;				//position of player
-
 char map[15][15] = {			//static map in array
 	"**************",
 	"*@           *",
 	"*            *",
-	"*            *",
+	"*  G         *",
 	"*            *",
 	"*            *",
 	"*            *",

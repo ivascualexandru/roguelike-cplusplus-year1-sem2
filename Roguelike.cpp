@@ -1,16 +1,17 @@
 #include <iostream>
 #include "Character.h"
 #include "Windows.h"
+#include "saveAndLoad.cpp"
 
 using namespace std;
 
 bool gameStarted = true;
 
 Character character;
+monster goblin;
 
 int main()
 {
-	//cout << "WELCOME TO THE GAME\nPRESS ENTER TO START" << endl;
 
 	while (gameStarted)						// while the game has started
 	{
@@ -32,8 +33,29 @@ int main()
 		if (GetAsyncKeyState(0x44))			// 0x44 is the virtual key code for the w key, checks if w has been pressed
 			character.Movement(0, 1);		// moves right
 
-		if (GetAsyncKeyState(0x41))			// 0x41 is the virtual key code for the w key, checks if w has been pressed
-			character.Movement(0, -1);		// moves left
+		if (GetAsyncKeyState(0x41))         // 0x41 is the virtual key code for the w key, checks if w has been pressed
+		{	if ((character.x==goblin.x+1) && (character.y==goblin.y))
+			{
+				goblin.health-=character.attack;
+				if (goblin.health < 0){
+					cout<<"You killed him lmao";
+					map[goblin.x][goblin.y]=' ';
+				}
+			}
+		if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1))){
+			character.health-=goblin.attack;
+		}
+						
+			character.Movement(0, -1);      // moves left
+		}
+		if (GetAsyncKeyState(0x50))         //0x50 is the virtual key code for the p key, checks if P has been pressed
+			{								//Hopefully creates a .txt file
+				//saveGame();
+			}
 
+		if (GetAsyncKeyState(0x4C))
+			{
+				//loadGame();
+			}
 	}
 }
