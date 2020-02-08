@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Character.h"
 #include "Windows.h"
-#include "saveAndLoad.cpp"
+#include "saveAndLoad.h"
 
 using namespace std;
 
@@ -40,6 +40,7 @@ int main()
 				if (goblin.health < 0){
 					cout<<"You killed him lmao";
 					map[goblin.x][goblin.y]=' ';
+					character.xp+=10;
 				}
 			}
 		if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1))){
@@ -50,7 +51,12 @@ int main()
 		}
 		if (GetAsyncKeyState(0x50))         //0x50 is the virtual key code for the p key, checks if P has been pressed
 			{								//Hopefully creates a .txt file
-				//saveGame();
+				int playerx=character.x;
+				int playery=character.y;
+				int playerhealth=character.health;
+				int playerattack=character.attack;
+				int playerxp=character.xp;
+				saveGame(playerx,playery,playerhealth,playerattack,playerxp);
 			}
 
 		if (GetAsyncKeyState(0x4C))
