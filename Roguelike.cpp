@@ -9,7 +9,7 @@ bool gameStarted = true;
 
 Character character;
 monster goblin;
-int playerhealth=10,playerxp=0,playerattack=4,playerx=3,playery=5,playerinventory[8];
+//int playerhealth=10,playerxp=0,playerattack=4,playerx=3,playery=5,playerinventory[8];
 int main()
 {
 	goblin.x=3;
@@ -41,10 +41,21 @@ int main()
 
 		if (GetAsyncKeyState(0x57))										// moves up
 			{
-				if ((playerx==goblin.x) && (playery==goblin.y+1))	goblin.wasAttacked(&character.attack, &character.xp);
+				if ((character.x==goblin.x) && (character.y==goblin.y+1))	goblin.wasAttacked(&character.attack, &character.xp);
 				if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
 				{
 					goblin.playerAttacked(&character.x, &character.y, &character.health);
+				}
+
+				for (int i=0; i<2; i++)
+				{
+					if ((monsterArray[i].x == character.x) && (monsterArray[i].y == character.y)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
+				
+
+					if (((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1)))
+					{
+						monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
+					}
 				}
 			character.Movement(-1, 0);
 			}
@@ -57,9 +68,18 @@ int main()
 		if (GetAsyncKeyState(0x53))										// moves down
 			{	
 				if ((character.x==goblin.x) && (character.y==goblin.y-1)) goblin.wasAttacked(&character.attack, &character.xp);
-		if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
+				if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
 				{	
 				goblin.playerAttacked(&character.x, &character.y, &character.health);
+				}
+
+				for (int i=0; i<2; i++)
+				{
+					if ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
+					if (((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1)))
+				{	
+					monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
+				}
 				}
 			character.Movement(1, 0);
 			}
@@ -71,10 +91,19 @@ int main()
 		if (GetAsyncKeyState(0x44))
 			{	
 				if ((character.x==goblin.x-1) && (character.y==goblin.y)) goblin.wasAttacked(&character.attack, &character.xp);
-		if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
+				if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
 			{	
 				goblin.playerAttacked(&character.x, &character.y, &character.health);	
 			}
+
+			for (int i=0; i<2; i++)
+				{
+					if ((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
+					if (((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1)))
+						{	
+						monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);	
+						}
+				}
 			character.Movement(0, 1);
 			}
 
@@ -82,11 +111,21 @@ int main()
 
 
 		if (GetAsyncKeyState(0x41))
-		{	if ((character.x==goblin.x+1) && (character.y==goblin.y))  goblin.wasAttacked(&character.attack, &character.xp);
-		if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
+		{	
+			if ((character.x==goblin.x+1) && (character.y==goblin.y))  goblin.wasAttacked(&character.attack, &character.xp);
+			if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
 			{	
 				goblin.playerAttacked(&character.x, &character.y, &character.health);
 			}
+
+			for (int i=0; i<2; i++)
+				{
+					if ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y))  monsterArray[i].wasAttacked(&character.attack, &character.xp);
+					if (((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1)))
+						{	
+							monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
+						}
+				}
 			character.Movement(0, -1);
 		}
 
