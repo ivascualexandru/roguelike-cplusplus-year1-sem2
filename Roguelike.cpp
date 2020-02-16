@@ -9,9 +9,19 @@ bool gameStarted = true;
 
 Character character;
 monster goblin;
-
+int playerhealth=10,playerxp=0,playerattack=4,playerx=3,playery=5,playerinventory[8];
 int main()
 {
+	goblin.x=3;
+	goblin.y=3;
+
+	monster monsterArray[5];
+
+	for (int i=0; i<2; i++)
+	{
+		cout<<"Goblin #"<<i+1<<"\n";
+		monsterArray[i].getInfo();
+	}
 
 	while (gameStarted)						// while the game has started
 	{
@@ -30,27 +40,12 @@ int main()
 
 
 		if (GetAsyncKeyState(0x57))										// moves up
-			{	
-				if ((character.x==goblin.x) && (character.y==goblin.y+1))
 			{
-				goblin.health-=character.attack;
-				if (goblin.health < 0){
-					cout<<"You killed him lmao";
-					map[goblin.x][goblin.y]=' ';
-					character.xp+=10;
-				}
-			}
+				if ((playerx==goblin.x) && (playery==goblin.y+1))	goblin.wasAttacked(&character.attack, &character.xp);
 				if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
 				{
-					character.health-=goblin.attack;
-					if (character.health<0){
-						cout<<"You got killed by him lmao"<<endl;
-						cout<<"You got killed by him lmao"<<endl;
-						cout<<"You got killed by him lmao"<<endl;
-						cout<<"You got killed by him lmao"<<endl;
-						map[character.x][character.y]=' ';          //PLAYER DEATH
+					goblin.playerAttacked(&character.x, &character.y, &character.health);
 				}
-		}
 			character.Movement(-1, 0);
 			}
 
@@ -59,28 +54,13 @@ int main()
 
 
 
-
 		if (GetAsyncKeyState(0x53))										// moves down
 			{	
-				if ((character.x==goblin.x) && (character.y==goblin.y-1))
-			{
-				goblin.health-=character.attack;
-				if (goblin.health < 0){
-					cout<<"You killed him lmao";
-					map[goblin.x][goblin.y]=' ';
-					character.xp+=10;
+				if ((character.x==goblin.x) && (character.y==goblin.y-1)) goblin.wasAttacked(&character.attack, &character.xp);
+		if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
+				{	
+				goblin.playerAttacked(&character.x, &character.y, &character.health);
 				}
-			}
-		if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1))){
-			character.health-=goblin.attack;
-			if (character.health<0){
-						cout<<"You got killed by him lmao"<<endl;
-						cout<<"You got killed by him lmao"<<endl;
-						cout<<"You got killed by him lmao"<<endl;
-						cout<<"You got killed by him lmao"<<endl;
-						map[character.x][character.y]=' ';          //PLAYER DEATH
-				}
-		}
 			character.Movement(1, 0);
 			}
 
@@ -88,28 +68,13 @@ int main()
 
 
 
-
 		if (GetAsyncKeyState(0x44))
 			{	
-				if ((character.x==goblin.x-1) && (character.y==goblin.y))
-			{
-				goblin.health-=character.attack;
-				if (goblin.health < 0){
-					cout<<"You killed him lmao";            			//moves right
-					map[goblin.x][goblin.y]=' ';
-					character.xp+=10;
-				}
+				if ((character.x==goblin.x-1) && (character.y==goblin.y)) goblin.wasAttacked(&character.attack, &character.xp);
+		if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
+			{	
+				goblin.playerAttacked(&character.x, &character.y, &character.health);	
 			}
-		if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1))){
-			character.health-=goblin.attack;
-			if (character.health<0){
-						cout<<"You got killed by him lmao"<<endl;
-						cout<<"You got killed by him lmao"<<endl;
-						cout<<"You got killed by him lmao"<<endl;
-						cout<<"You got killed by him lmao"<<endl;
-						map[character.x][character.y]=' ';          //PLAYER DEATH
-				}
-		}
 			character.Movement(0, 1);
 			}
 
@@ -117,25 +82,11 @@ int main()
 
 
 		if (GetAsyncKeyState(0x41))
-		{	if ((character.x==goblin.x+1) && (character.y==goblin.y))
-			{
-				goblin.health-=character.attack;
-				if (goblin.health < 0){
-					cout<<"You killed him lmao";				         // moves left
-					map[goblin.x][goblin.y]=' ';
-					character.xp+=10;
-				}
+		{	if ((character.x==goblin.x+1) && (character.y==goblin.y))  goblin.wasAttacked(&character.attack, &character.xp);
+		if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
+			{	
+				goblin.playerAttacked(&character.x, &character.y, &character.health);
 			}
-		if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1))){
-			character.health-=goblin.attack;
-			if (character.health<0){
-						cout<<"You got killed by him lmao"<<endl;
-						cout<<"You got killed by him lmao"<<endl;
-						cout<<"You got killed by him lmao"<<endl;
-						cout<<"You got killed by him lmao"<<endl;
-						map[character.x][character.y]=' ';          //PLAYER DEATH
-				}
-		}
 			character.Movement(0, -1);
 		}
 
