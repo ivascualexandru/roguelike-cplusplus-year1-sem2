@@ -9,7 +9,7 @@ bool gameStarted = true;
 
 Character character;
 monster goblin;
-//int playerhealth=10,playerxp=0,playerattack=4,playerx=3,playery=5,playerinventory[8];
+string lastTurnsMessages;
 int main()
 {
 	goblin.x=3;
@@ -19,14 +19,15 @@ int main()
 
 	for (int i=0; i<2; i++)
 	{
-		cout<<"Goblin #"<<i+1<<"\n";
+		cout<<"Goblin #"<<i+1<<"\nInbetween 1 and 9 please, any other things break the walls\n";
 		monsterArray[i].getInfo();
 	}
 
 	while (gameStarted)						// while the game has started
 	{
 		system("cls");						// clears the screen after every key press
-
+		cout<<lastTurnsMessages;
+		lastTurnsMessages="";
 		for (int i = 0; i < 15; i++)
 		{
 			cout << map[i] << endl;			// prints the map in console

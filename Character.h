@@ -1,5 +1,7 @@
 #include <iostream>
+#include<string>
 #pragma once
+extern std::string lastTurnsMessages;
 extern char map[15][15];
 class Character
 {
@@ -24,24 +26,22 @@ class monster
 	void wasAttacked(int *playerattack, int *playerxp)
 	{
 		health-=*playerattack;
+		//string str = string(*playerattack);
+		std::string str = std::to_string(*playerattack);
+		lastTurnsMessages= lastTurnsMessages + "You dealt " + str + " damage to the goblin.\n";
 		if (health <= 0)
 		{
 			map[x][y]=' ';
 			*playerxp+=10;
+			lastTurnsMessages+="It died.\n";
 		}
 	}
 
 	void playerAttacked(int *playerx, int *playery, int *playerhealth)
 	{
 		*playerhealth-=attack;
-		if (playerhealth<0)
-			{
-				map[*playerx][*playery]=' ';
-				for (int i=0; i<15; i++)
-				{
-					for (int j=0; j<15; j++) map[i][j]='*';
-				}
-			}
+		lastTurnsMessages+="You got attacked by an enemy\n";
+		if (playerhealth<0) {lastTurnsMessages+="YOU DIED!\n";}
 	}
 
 };
