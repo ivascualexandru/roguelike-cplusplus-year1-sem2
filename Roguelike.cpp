@@ -12,6 +12,21 @@ monster goblin;
 string lastTurnsMessages;
 int main()
 {
+	cout << "Choices: \n1 start playing, 2 manual \nWhat do you choose? ";
+	int choice = 0;
+	cin >> choice;
+	switch (choice)
+	{
+	case 1:					//Start playing
+		cout << "Great! Let's play... \n";
+		break;
+	case 2:					//Manual - a list of commands that are put out by the system
+		cout << "How to play:\n*** Forwards: W *** Backwards: S *** Left: A *** Right: D ***\n*** Save Game: P ***" << endl; // << "*** Check Inventory: I ***";
+		break;
+	default:
+		break;
+	}
+	
 	goblin.x=3;
 	goblin.y=3;
 
