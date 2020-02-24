@@ -11,7 +11,7 @@ public:
 	
 	void LevelUp(mylvl,playerxp);
 	 if mylvl>1 and playerxp=10;
-		mylvl=mylvl+1, maxhp=health+2,attack=attack+2, playerxp=playerxp+2;
+		mylvl= mylvl +1, maxhp = health + 2,attack= attack + 2, playerxp= playerxp + 2;
 	cout<<mylvl<<playerxp;
 	
 	        	
