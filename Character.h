@@ -7,8 +7,14 @@ class Character
 {
 public:
 	void Movement(int Vertical, int Horizontal);
-	int health=10,xp=0,attack=4,x=1,y=1,inventory[8],mylvl=1,maxhp=10;
+	int health=10,playerxp=0,attack=4,x=1,y=1,inventory[8],mylvl=1,maxhp=10;
 	
+	void LevelUp(mylvl,playerxp);
+	 if mylvl>1 and playerxp=10;
+		mylvl=mylvl+1, maxhp=health+2,attack=attack+2, playerxp=playerxp+2;
+	cout<<mylvl<<playerxp;
+	
+	        	
 };
 
 class monster
