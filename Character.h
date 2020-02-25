@@ -6,14 +6,19 @@ extern char map[15][15];
 class Character
 {
 public:
+	
+	int health=10,xp=0,attack=4,x=1,y=1,inventory[8],maxhp=10,level=1;
+	
 	void Movement(int Vertical, int Horizontal);
-	int health=10,playerxp=0,attack=4,x=1,y=1,inventory[8],mylvl=1,maxhp=10;
-	
-	void LevelUp(mylvl,playerxp);
-	 if mylvl>1 and playerxp=10;
-		mylvl= mylvl +1, maxhp = health + 2,attack= attack + 2, playerxp= playerxp + 2;
-	cout<<mylvl<<playerxp;
-	
+
+	void LevelUp()
+	{	
+		level+=1;
+		maxhp+=2;
+		health=maxhp;
+		attack+=2;
+		xp=0;
+	}
 	        	
 };
 
@@ -21,6 +26,7 @@ class monster
 {
 	public:
 	int health=6,attack=3,x,y;
+	bool Alive=true;
 
 	void getInfo()
 	{
@@ -33,14 +39,17 @@ class monster
 	void wasAttacked(int *playerattack, int *playerxp)
 	{
 		health-=*playerattack;
-		//string str = string(*playerattack);
+
 		std::string str = std::to_string(*playerattack);
 		lastTurnsMessages= lastTurnsMessages + "You dealt " + str + " damage to the goblin.\n";
+		
 		if (health <= 0)
 		{
 			map[x][y]=' ';
 			*playerxp+=10;
+			Alive=false;
 			lastTurnsMessages+="It died.\n";
+			lastTurnsMessages+=Alive;
 		}
 	}
 

@@ -41,13 +41,13 @@ int main()
 	while (gameStarted)						// while the game has started
 	{
 		system("cls");						// clears the screen after every key press
-		cout<<lastTurnsMessages;
-		lastTurnsMessages="";
+		
 		for (int i = 0; i < 15; i++)
 		{
 			cout << map[i] << endl;			// prints the map in console
 		}
-		
+		cout<<lastTurnsMessages;
+		lastTurnsMessages="";
 		system("pause > nul");		// usually the console closes after one key press but this allows the user to input more key presses
 
 
@@ -57,18 +57,18 @@ int main()
 
 		if (GetAsyncKeyState(0x57))										// moves up
 			{
-				if ((character.x==goblin.x) && (character.y==goblin.y+1))	goblin.wasAttacked(&character.attack, &character.xp);
-				if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
+				if ((character.x==goblin.x) && (character.y==goblin.y+1) && (goblin.Alive==true))	goblin.wasAttacked(&character.attack, &character.xp);
+				if ((((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)) && (goblin.Alive==true)))
 				{
 					goblin.playerAttacked(&character.x, &character.y, &character.health);
 				}
 
 				for (int i=0; i<2; i++)
 				{
-					if ((monsterArray[i].x == character.x) && (monsterArray[i].y == character.y)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
+					if ((monsterArray[i].x == character.x) && (monsterArray[i].y == character.y) && (monsterArray[i].Alive==true)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
 				
 
-					if (((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1)))
+					if ((((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x)) && (character.y==monsterArray[i].y-1)) && (monsterArray[i].Alive==true))
 					{
 						monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
 					}
@@ -83,16 +83,16 @@ int main()
 
 		if (GetAsyncKeyState(0x53))										// moves down
 			{	
-				if ((character.x==goblin.x) && (character.y==goblin.y-1)) goblin.wasAttacked(&character.attack, &character.xp);
-				if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
+				if ((character.x==goblin.x) && (character.y==goblin.y-1) && (goblin.Alive==true)) goblin.wasAttacked(&character.attack, &character.xp);
+				if ((((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1))) && (goblin.Alive==true))
 				{	
 				goblin.playerAttacked(&character.x, &character.y, &character.health);
 				}
 
 				for (int i=0; i<2; i++)
 				{
-					if ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
-					if (((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1)))
+					if ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1) && (monsterArray[i].Alive==true)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
+					if ((((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1))) && (monsterArray[i].Alive==true))
 				{	
 					monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
 				}
@@ -106,16 +106,16 @@ int main()
 
 		if (GetAsyncKeyState(0x44))
 			{	
-				if ((character.x==goblin.x-1) && (character.y==goblin.y)) goblin.wasAttacked(&character.attack, &character.xp);
-				if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
+				if ((character.x==goblin.x-1) && (character.y==goblin.y) && (goblin.Alive==true)) goblin.wasAttacked(&character.attack, &character.xp);
+				if ((((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1))) && (goblin.Alive==true))
 			{	
 				goblin.playerAttacked(&character.x, &character.y, &character.health);	
 			}
 
 			for (int i=0; i<2; i++)
 				{
-					if ((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
-					if (((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1)))
+					if ((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y) && (monsterArray[i].Alive==true)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
+					if ((((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1))) && (monsterArray[i].Alive==true))
 						{	
 						monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);	
 						}
@@ -128,16 +128,16 @@ int main()
 
 		if (GetAsyncKeyState(0x41))
 		{	
-			if ((character.x==goblin.x+1) && (character.y==goblin.y))  goblin.wasAttacked(&character.attack, &character.xp);
-			if (((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1)))
+			if ((character.x==goblin.x+1) && (character.y==goblin.y) && (goblin.Alive==true))  goblin.wasAttacked(&character.attack, &character.xp);
+			if ((((character.x==goblin.x-1) && (character.y==goblin.y)) || ((character.x==goblin.x+1) && (character.y==goblin.y)) || ((character.x==goblin.x) && (character.y==goblin.y+1)) || ((character.x==goblin.x) && (character.y==goblin.y-1))) && (goblin.Alive==true))
 			{	
 				goblin.playerAttacked(&character.x, &character.y, &character.health);
 			}
 
 			for (int i=0; i<2; i++)
 				{
-					if ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y))  monsterArray[i].wasAttacked(&character.attack, &character.xp);
-					if (((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1)))
+					if ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y) && (monsterArray[i].Alive==true))  monsterArray[i].wasAttacked(&character.attack, &character.xp);
+					if ((((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1))) && (monsterArray[i].Alive==true))
 						{	
 							monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
 						}
