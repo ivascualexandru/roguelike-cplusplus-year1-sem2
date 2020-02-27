@@ -49,7 +49,6 @@ class monster
 			*playerxp+=10;
 			Alive=false;
 			lastTurnsMessages+="It died.\n";
-			lastTurnsMessages+=Alive;
 		}
 	}
 
