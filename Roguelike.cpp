@@ -171,7 +171,7 @@ int main()
 
 
 		if (GetAsyncKeyState(0x49)){
-			for (int i=0; i<8; i++) cout<<character.inventory[i];  //To be continued when Dimi's database becomes available
+			for (int i=0; i<8; i++) cout<<character.inventory[i]<<endl;
 		}
 	}
 }
