@@ -219,10 +219,26 @@ int main()
 				//loadGame();
 			}
 
+		if ((character.health < 0))		//Death Function until the classes version decides to work
+		{
+			gameStarted = false;
+		}
 
 
 		if (GetAsyncKeyState(0x49)){
 			for (int i=0; i<8; i++) cout<<character.inventory[i];  //To be continued when Dimi's database becomes available
 		}
+	}
+	if (gameStarted == false)
+	{
+		system("cls");
+		
+		cout << "GAME OVER! You have died!\nWhat is your name? ";
+		std::string name;
+		cin >> name;
+		int scored;
+		scored = character.oldxp * 100;
+		cout << std::endl << name << " you have scored... " << scored << " points!\n";//"Do you want to see the leaderboard?\n";
+		//Include the highscore leaderboard here
 	}
 }
