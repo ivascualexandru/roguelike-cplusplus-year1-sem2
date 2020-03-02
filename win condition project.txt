@@ -1,0 +1,13 @@
+bool WinCondition(n,i,j,EnemiesAlive)
+{  EnemiesAlive = false;
+    for (int i=0;i<15;i++)
+    {
+        for (int n = 0; n< 15 ; n++)
+        for (int j = 0 ; j < 2 ; j++)
+	    {
+		    if ((monsterArray[j].x == i) && (monsterArray[i].y == j) && (monsterArray[j].Alive)) EnemiesAlive = true;
+	    }
+    }
+if(EnemiesAlive == false)
+  std::cout<<"You Win!!";
+}
