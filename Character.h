@@ -19,6 +19,31 @@ public:
 		attack+=2;
 		xp=0;
 	}
+	
+	int DeathFunction()			//No errors so does not affect code, but also does not return anything, cus i need to fix it somehow
+	{
+		if ((maxhp < 0) || (maxhp == 0))
+		{
+			system("pause");
+			std::cout << "GAME OVER! \nYou have died!\n";
+			std::string playername;
+			std::cout << "What is your name? ";
+			std::cin >> playername;
+			int totalxp, score;
+			totalxp = xp;
+			score = totalxp * 100;
+			std::cout << "Your score is " << score << "! \n Well done " << playername;
+			
+			
+		}
+	}
+
+	int score()
+	{
+		int score;
+		score = oldxp * 100;
+		return score;
+	}
 	        	
 };
 
