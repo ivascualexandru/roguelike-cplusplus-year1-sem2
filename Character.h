@@ -7,12 +7,13 @@ class Character
 {
 public:
 	
-	int health=10,xp=0,attack=4,x=1,y=1,inventory[8],maxhp=10,level=1;
+	int health=10,xp=0,attack=4,x=1,y=1,inventory[8],maxhp=10,level=1,oldxp=xp;
 	
 	void Movement(int Vertical, int Horizontal);
 
 	void LevelUp()
 	{	
+		oldxp=xp;
 		level+=1;
 		maxhp+=2;
 		health=maxhp;
