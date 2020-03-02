@@ -2,17 +2,27 @@
 #include "Character.h"
 #include "Windows.h"
 #include "saveAndLoad.h"
+#include <fstream>
+#include <algorithm>
+#include <vector>
 
 using namespace std;
 
 bool gameStarted = true;
 
+//for leaderboard
+string line;
+ifstream f;
+string textName;
+int leaderboardScore;
+vector < pair < int, string >> vScore;	//creates a vector and pairs the values within the text file
+
 Character character;
 string lastTurnsMessages;
 int main()
 {
-	int monsterPresentHere=0, willWalkIntoSomebody=0;
-	cout << "Choices: \n1 start playing, 2 manual \nWhat do you choose? ";
+	int monsterPresentHere = 0, willWalkIntoSomebody = 0;
+	cout << "Choices: \n1 Start Playing, 2 Manual, 3 View Leaderboards \nWhat do you choose? ";
 	int choice = 0;
 	cin >> choice;
 	switch (choice)
@@ -23,15 +33,33 @@ int main()
 	case 2:					//Manual - a list of commands that are put out by the system
 		cout << "How to play:\n*** Forwards: W *** Backwards: S *** Left: A *** Right: D ***\n*** Save Game: P ***" << endl; // << "*** Check Inventory: I ***";
 		break;
+
+	case 3:
+		cout << "NAME\tSCORE\n";
+		f.open("highscores.txt");
+		while (f >> textName >> leaderboardScore) {
+			vScore.push_back(make_pair(leaderboardScore, textName));
+			cout << line;
+		}
+		f.close();
+		sort(vScore.begin(), vScore.end());				//sorts in ascending
+		reverse(vScore.begin(), vScore.end());			//flips the sort to descending
+		for (int i = 0; i < vScore.size(); i++) {
+			cout << vScore[i].second << "\t" << vScore[i].first << endl;	//outputs the leaderboard to console
+		}
+
+		return 0;
+		break;
+
 	default:
 		break;
 	}
 
 	monster monsterArray[5];
 
-	for (int i=0; i<2; i++)
+	for (int i = 0; i < 2; i++)
 	{
-		cout<<"Goblin #"<<i+1<<"\nInbetween 1 and 9 please, any other things break the walls\n";
+		cout << "Goblin #" << i + 1 << "\nInbetween 1 and 9 please, any other things break the walls\n";
 		monsterArray[i].getInfo();
 	}
 
@@ -40,35 +68,35 @@ int main()
 		system("cls");						// clears the screen after every key press
 
 
-		cout<<"HP: "<<character.health<<"/"<<character.maxhp<<"    BASE DAMAGE:"<<character.attack<<"    \n";
-		cout<<"XP: "<<character.xp<<"    LEVEL:"<<character.level<<"\n";
+		cout << "HP: " << character.health << "/" << character.maxhp << "    BASE DAMAGE:" << character.attack << "    \n";
+		cout << "XP: " << character.xp << "    LEVEL:" << character.level << "\n";
 
 
 
 		for (int i = 0; i < 15; i++)
 		{
-			for (int j=0; j<15; j++)
+			for (int j = 0; j < 15; j++)
 			{
-				for (int k=0; k<2; k++) 
+				for (int k = 0; k < 2; k++)
 				{
-					if ((monsterArray[k].x == i) && (monsterArray[k].y == j) && (monsterArray[k].Alive == true)) monsterPresentHere=1;
+					if ((monsterArray[k].x == i) && (monsterArray[k].y == j) && (monsterArray[k].Alive == true)) monsterPresentHere = 1;
 				}
-				if (map[i][j] == '*') cout<<'*';
+				if (map[i][j] == '*') cout << '*';
 				else if (monsterPresentHere)           //MAP
-					{
-						cout<<'G';
-						monsterPresentHere=0;
-					}
-				else if (map[i][j] == ' ') cout<<' ';
-				else if (map[i][j] == '@') cout<<'@';
+				{
+					cout << 'G';
+					monsterPresentHere = 0;
+				}
+				else if (map[i][j] == ' ') cout << ' ';
+				else if (map[i][j] == '@') cout << '@';
 			}
-			cout<<endl;
+			cout << endl;
 		}
 
 
 
-		cout<<lastTurnsMessages;
-		lastTurnsMessages="";
+		cout << lastTurnsMessages;
+		lastTurnsMessages = "";
 
 
 		system("pause > nul");		// usually the console closes after one key press but this allows the user to input more key presses
@@ -79,32 +107,32 @@ int main()
 
 
 		if (GetAsyncKeyState(0x57))										// moves up
+		{
+			for (int i = 0; i < 2; i++)
 			{
-				for (int i=0; i<2; i++)
-				{
-					if ((monsterArray[i].x == character.x) && (monsterArray[i].y == character.y) && (monsterArray[i].Alive==true)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
-				
+				if ((monsterArray[i].x == character.x) && (monsterArray[i].y == character.y) && (monsterArray[i].Alive == true)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
 
-					if ((((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x)) && (character.y==monsterArray[i].y-1)) && (monsterArray[i].Alive==true))
-					{
-						monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
-					}
-				}
-				if (character.xp >= 15)
+
+				if ((((character.x == monsterArray[i].x - 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x + 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y + 1)) || ((character.x == monsterArray[i].x)) && (character.y == monsterArray[i].y - 1)) && (monsterArray[i].Alive == true))
 				{
-					character.LevelUp();
+					monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
 				}
-				for (int i=0; i<2; i++) 
-					if ((character.x == monsterArray[i].x) && (character.y-1 == monsterArray[i].y) && (monsterArray[i].Alive == 1)) 
-					{
-					willWalkIntoSomebody=1;
-					}
-				if (willWalkIntoSomebody==0)
-				{
-				character.Movement(-1, 0);
-				}
-				willWalkIntoSomebody=0;
 			}
+			if (character.xp >= 15)
+			{
+				character.LevelUp();
+			}
+			for (int i = 0; i < 2; i++)
+				if ((character.x == monsterArray[i].x) && (character.y - 1 == monsterArray[i].y) && (monsterArray[i].Alive == 1))
+				{
+					willWalkIntoSomebody = 1;
+				}
+			if (willWalkIntoSomebody == 0)
+			{
+				character.Movement(-1, 0);
+			}
+			willWalkIntoSomebody = 0;
+		}
 
 
 
@@ -112,112 +140,112 @@ int main()
 
 
 		if (GetAsyncKeyState(0x53))										// moves down
-			{	
-				for (int i=0; i<2; i++)
+		{
+			for (int i = 0; i < 2; i++)
+			{
+				if ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y - 1) && (monsterArray[i].Alive == true)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
+				if ((((character.x == monsterArray[i].x - 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x + 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y + 1)) || ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y - 1))) && (monsterArray[i].Alive == true))
 				{
-					if ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1) && (monsterArray[i].Alive==true)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
-					if ((((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1))) && (monsterArray[i].Alive==true))
-				{	
 					monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
 				}
-				}
-				if (character.xp >= 15)
-				{
-					character.LevelUp();
-				}
-				for (int i=0; i<2; i++) 
-					if ((character.x == monsterArray[i].x) && (character.y+1 == monsterArray[i].y) && (monsterArray[i].Alive == 1)) 
-					{
-					willWalkIntoSomebody=1;
-					}
-				if (willWalkIntoSomebody==0)
-				{
-				character.Movement(1, 0);
-				}
-				willWalkIntoSomebody=0;
 			}
+			if (character.xp >= 15)
+			{
+				character.LevelUp();
+			}
+			for (int i = 0; i < 2; i++)
+				if ((character.x == monsterArray[i].x) && (character.y + 1 == monsterArray[i].y) && (monsterArray[i].Alive == 1))
+				{
+					willWalkIntoSomebody = 1;
+				}
+			if (willWalkIntoSomebody == 0)
+			{
+				character.Movement(1, 0);
+			}
+			willWalkIntoSomebody = 0;
+		}
 
 
 
 
 
 		if (GetAsyncKeyState(0x44)) //WALK RIGHT
-			{	
-			for (int i=0; i<2; i++)
+		{
+			for (int i = 0; i < 2; i++)
+			{
+				if ((character.x == monsterArray[i].x - 1) && (character.y == monsterArray[i].y) && (monsterArray[i].Alive == true)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
+				if ((((character.x == monsterArray[i].x - 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x + 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y + 1)) || ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y - 1))) && (monsterArray[i].Alive == true))
 				{
-					if ((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y) && (monsterArray[i].Alive==true)) monsterArray[i].wasAttacked(&character.attack, &character.xp);
-					if ((((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1))) && (monsterArray[i].Alive==true))
-						{	
-						monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);	
-						}
+					monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
 				}
-				if (character.xp >= 15)
-				{
-					character.LevelUp();
-				}
-			for (int i=0; i<2; i++) 
-					if ((character.x+1 == monsterArray[i].x) && (character.y == monsterArray[i].y) && (monsterArray[i].Alive == 1)) 
-					{
-					willWalkIntoSomebody=1;
-					}
-				if (willWalkIntoSomebody==0)
-				{
-				character.Movement(0, 1);
-				}
-				willWalkIntoSomebody=0;
 			}
+			if (character.xp >= 15)
+			{
+				character.LevelUp();
+			}
+			for (int i = 0; i < 2; i++)
+				if ((character.x + 1 == monsterArray[i].x) && (character.y == monsterArray[i].y) && (monsterArray[i].Alive == 1))
+				{
+					willWalkIntoSomebody = 1;
+				}
+			if (willWalkIntoSomebody == 0)
+			{
+				character.Movement(0, 1);
+			}
+			willWalkIntoSomebody = 0;
+		}
 
 
 
 
 		if (GetAsyncKeyState(0x41)) //WALK LEFT
 		{
-			for (int i=0; i<2; i++)
+			for (int i = 0; i < 2; i++)
+			{
+				if ((character.x == monsterArray[i].x + 1) && (character.y == monsterArray[i].y) && (monsterArray[i].Alive == true))  monsterArray[i].wasAttacked(&character.attack, &character.xp);
+				if ((((character.x == monsterArray[i].x - 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x + 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y + 1)) || ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y - 1))) && (monsterArray[i].Alive == true))
 				{
-					if ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y) && (monsterArray[i].Alive==true))  monsterArray[i].wasAttacked(&character.attack, &character.xp);
-					if ((((character.x==monsterArray[i].x-1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x+1) && (character.y==monsterArray[i].y)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y+1)) || ((character.x==monsterArray[i].x) && (character.y==monsterArray[i].y-1))) && (monsterArray[i].Alive==true))
-						{	
-							monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
-						}
+					monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
 				}
-				if (character.xp >= 15)
+			}
+			if (character.xp >= 15)
+			{
+				character.LevelUp();
+			}
+			for (int i = 0; i < 2; i++)
+				if ((character.x - 1 == monsterArray[i].x) && (character.y == monsterArray[i].y) && (monsterArray[i].Alive == 1))
 				{
-					character.LevelUp();
-				}	
-			for (int i=0; i<2; i++) 
-					if ((character.x-1 == monsterArray[i].x) && (character.y == monsterArray[i].y) && (monsterArray[i].Alive == 1)) 
-					{
-					willWalkIntoSomebody=1;
-					}
-				if (willWalkIntoSomebody==0)
-				{
+					willWalkIntoSomebody = 1;
+				}
+			if (willWalkIntoSomebody == 0)
+			{
 				character.Movement(0, -1);
-				}
-				willWalkIntoSomebody=0;
+			}
+			willWalkIntoSomebody = 0;
 		}
 
 
 
 
-		
+
 		if (GetAsyncKeyState(0x50))
-			{
-				int playerx=character.x;
-				int playery=character.y;
-				int playerhealth=character.health;
-				int playerattack=character.attack;             //0x50 is the virtual key code for the p key, checks if P has been pressed
-				int playerxp=character.xp;
-				saveGame(playerx,playery,playerhealth,playerattack,playerxp);
-			}
+		{
+			int playerx = character.x;
+			int playery = character.y;
+			int playerhealth = character.health;
+			int playerattack = character.attack;             //0x50 is the virtual key code for the p key, checks if P has been pressed
+			int playerxp = character.xp;
+			saveGame(playerx, playery, playerhealth, playerattack, playerxp);
+		}
 
 
 
 
 
 		if (GetAsyncKeyState(0x4C))
-			{
-				//loadGame();
-			}
+		{
+			//loadGame();
+		}
 
 		if ((character.health < 0))		//Death Function until the classes version decides to work
 		{
@@ -225,14 +253,14 @@ int main()
 		}
 
 
-		if (GetAsyncKeyState(0x49)){
-			for (int i=0; i<8; i++) cout<<character.inventory[i];  //To be continued when Dimi's database becomes available
+		if (GetAsyncKeyState(0x49)) {
+			for (int i = 0; i < 8; i++) cout << character.inventory[i];  //To be continued when Dimi's database becomes available
 		}
 	}
 	if (gameStarted == false)
 	{
 		system("cls");
-		
+
 		cout << "GAME OVER! You have died!\nWhat is your name? ";
 		std::string name;
 		cin >> name;
@@ -240,5 +268,9 @@ int main()
 		scored = character.oldxp * 100;
 		cout << std::endl << name << " you have scored... " << scored << " points!\n";//"Do you want to see the leaderboard?\n";
 		//Include the highscore leaderboard here
+		ofstream f("highscores.txt", ios::app);
+		f << name << " " << scored << "\n";
+		f.close();
+
 	}
 }
