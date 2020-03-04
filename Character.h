@@ -4,13 +4,13 @@
 #include <time.h>       /* time */
 #pragma once
 extern std::string lastTurnsMessages;
-extern char map[15][15];
+extern char map[40][20];
 extern int willWalkIntoSomebody;
 class Character
 {
 public:
 	
-	int health=10,xp=0,attack=4,x=1,y=1,inventory[8],maxhp=10,level=1,totalxp,gold=0;
+	int health=10,xp=0,attack=4,x,y,inventory[8],maxhp=10,level=1,totalxp,gold=0;
 	
 	//void Movement(int Vertical, int Horizontal);
 
@@ -19,38 +19,38 @@ public:
 	int x2 = x + Horizontal;	// movement on x-axis
 	int y2 = y + Vertical;		// movement on y-axis
 
-	if (map[y][x2] == ' ') // if player moves horizontally the space before becomes an empty space and the space moved to becomes '@'
+	if (map[x2][y] == ' ') // if player moves horizontally the space before becomes an empty space and the space moved to becomes '@'
 	{
-		map[y][x] = ' ';
+		map[x][y] = ' ';
 		x += Horizontal;
-		map[y][x] = '@';
+		map[x][y] = '@';
 	}
-	if (map[y][x2] == 'M')
+	if (map[x2][y] == 'M')
 	{
-		map[y][x] = ' ';
+		map[x][y] = ' ';
 		x+=Horizontal;
-		map[y][x] = '@';
+		map[x][y] = '@';
 		gold+=rand()%100;
 		srand (time(NULL));
 	}
 
-
-
-	if (map[y2][x] == ' ') // if player moves vertically the space before becomes an empty space and the space moved to becomes '@'
+	if (map[x][y2] == ' ') // if player moves vertically the space before becomes an empty space and the space moved to becomes '@'
 	{
-		map[y][x] = ' ';
+		map[x][y] = ' ';
 		y += Vertical;
-		map[y][x] = '@';
+		map[x][y] = '@';
 	}
-	if (map[y2][x] == 'M')
+	if (map[x][y2] == 'M')
 	{
-		map[y][x] = ' ';
+		map[x][y] = ' ';
 		y+=Vertical;
-		map[y][x] = '@';
+		map[x][y] = '@';
 		gold+=rand()%100;
 		srand (time(NULL));
 	}
 }
+
+
 	void LevelUp()
 	{	
 		//oldxp=xp;

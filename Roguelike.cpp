@@ -7,7 +7,7 @@
 #include "Character.h"
 #include "Windows.h"
 #include "saveAndLoad.h"
-
+#include "mapPrototype.h"
 using namespace std;
 
 bool gameStarted = true;
@@ -22,9 +22,10 @@ vector < pair <int, string>> vScore; //creates avector and pairs the values with
 Character character;
 int willWalkIntoSomebody = 0;
 string lastTurnsMessages;
+char map[40][20];
 int main()
 {
-	int monsterPresentHere = 0;
+	int monsterPresentHere = 0, playerAlreadyPlaced = 0;
 	cout << "Choices: \n1 start playing, 2 manual, 3 View Leaderboards What do you choose? ";
 	int choice = 0;
 	cin >> choice;
@@ -57,6 +58,24 @@ int main()
 		break;
 	}
 
+
+    Dungeon d(40,20);
+    d.generate(20);
+    for (int i=0; i<40; i++)
+    {
+        for (int j=0; j<20; j++)
+        {
+            map[i][j] = d.getTile(i,j);
+			if ((playerAlreadyPlaced == 0) && (map[i][j] == ' '))
+			{
+				character.x = i;
+				character.y = j;
+				map[i][j] = '@';
+				playerAlreadyPlaced = 1;
+			}
+        }
+    }
+
 	monster monsterArray[5];
 
 	for (int i = 0; i < 2; i++)
@@ -71,26 +90,24 @@ int main()
 
 
 		cout << "HP: " << character.health << "/" << character.maxhp << "    BASE DAMAGE:" << character.attack << "    \n";
-		cout << "XP: " << character.xp << "    LEVEL:" << character.level << "      GOLD:" << character.gold << "\n";
+		cout << "XP: " << character.xp << "    LEVEL:" << character.level << "      GOLD:" << character.gold << "    x POSITION:" << character.x << "    y POSITION:"<< character.y << "\n";
 		
 
-		for (int i = 0; i < 15; i++)
+		for (int i = 0; i < 40; i++)
 		{
-			for (int j = 0; j < 15; j++)
+			for (int j = 0; j < 20; j++)
 			{
 				for (int k = 0; k < 2; k++)
 				{
 					if ((monsterArray[k].x == j) && (monsterArray[k].y == i) && (monsterArray[k].Alive == true)) monsterPresentHere = 1;
 				}
-				if (map[i][j] == '*') cout << '*';
-				else if (monsterPresentHere)           //MAP
+				if (monsterPresentHere)           //MAP
 				{
 					cout << 'G';
 					monsterPresentHere = 0;
 				}
 				else if (map[i][j] == 'M') cout << 'M';
-				else if (map[i][j] == ' ') cout << ' ';
-				else if (map[i][j] == '@') cout << '@';
+				else cout<<map[i][j];
 			}
 			cout << endl;
 		}
