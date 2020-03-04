@@ -1,8 +1,11 @@
 #include <iostream>
 #include<string>
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 #pragma once
 extern std::string lastTurnsMessages;
 extern char map[15][15];
+extern int willWalkIntoSomebody;
 class Character
 {
 public:
@@ -27,7 +30,8 @@ public:
 		map[y][x] = ' ';
 		x+=Horizontal;
 		map[y][x] = '@';
-		gold+=10;
+		gold+=rand()%100;
+		srand (time(NULL));
 	}
 
 
@@ -43,7 +47,8 @@ public:
 		map[y][x] = ' ';
 		y+=Vertical;
 		map[y][x] = '@';
-		gold+=10;
+		gold+=rand()%100;
+		srand (time(NULL));
 	}
 }
 	void LevelUp()
@@ -112,6 +117,7 @@ class monster
 			Alive=false;
 			lastTurnsMessages+="It died.\n";
 			map[y][x]='M';
+			willWalkIntoSomebody = 1;
 		}
 	}
 

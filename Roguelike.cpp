@@ -20,10 +20,11 @@ int leaderboardScore;
 vector < pair <int, string>> vScore; //creates avector and pairs the values within the text file
 
 Character character;
+int willWalkIntoSomebody = 0;
 string lastTurnsMessages;
 int main()
 {
-	int monsterPresentHere = 0, willWalkIntoSomebody = 0;
+	int monsterPresentHere = 0;
 	cout << "Choices: \n1 start playing, 2 manual, 3 View Leaderboards What do you choose? ";
 	int choice = 0;
 	cin >> choice;
