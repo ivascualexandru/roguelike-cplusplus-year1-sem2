@@ -25,6 +25,12 @@ public:
 		x += Horizontal;
 		map[x][y] = '@';
 	}
+	if (map[x2][y] == '.') // if player moves horizontally the space before becomes an empty space and the space moved to becomes '@'
+	{
+		map[x][y] = ' ';
+		x += Horizontal;
+		map[x][y] = '@';
+	}
 	if (map[x2][y] == 'M')
 	{
 		map[x][y] = ' ';
@@ -35,6 +41,12 @@ public:
 	}
 
 	if (map[x][y2] == ' ') // if player moves vertically the space before becomes an empty space and the space moved to becomes '@'
+	{
+		map[x][y] = ' ';
+		y += Vertical;
+		map[x][y] = '@';
+	}
+	if (map[x][y2] == '.') // if player moves vertically the space before becomes an empty space and the space moved to becomes '@'
 	{
 		map[x][y] = ' ';
 		y += Vertical;

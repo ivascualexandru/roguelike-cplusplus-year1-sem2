@@ -148,7 +148,7 @@ int main()
 				}
 			if (willWalkIntoSomebody == 0)
 			{
-				character.Movement(-1, 0);
+				character.Movement(0, -1); //UP
 			}
 			willWalkIntoSomebody = 0;
 		}
@@ -179,7 +179,7 @@ int main()
 				}
 			if (willWalkIntoSomebody == 0)
 			{
-				character.Movement(1, 0);
+				character.Movement(0, 1); //DOWN
 			}
 			willWalkIntoSomebody = 0;
 		}
@@ -209,7 +209,7 @@ int main()
 				}
 			if (willWalkIntoSomebody == 0)
 			{
-				character.Movement(0, 1);
+				character.Movement(1, 0); //RIGHT
 			}
 			willWalkIntoSomebody = 0;
 		}
@@ -238,7 +238,7 @@ int main()
 				}
 			if (willWalkIntoSomebody == 0)
 			{
-				character.Movement(0, -1);
+				character.Movement(-1, 0); //LEFT
 			}
 			willWalkIntoSomebody = 0;
 		}
