@@ -4,7 +4,7 @@
 #include <time.h>       /* time */
 #pragma once
 extern std::string lastTurnsMessages;
-extern char map[40][20];
+extern char map[100][100];
 extern int willWalkIntoSomebody;
 class Character
 {

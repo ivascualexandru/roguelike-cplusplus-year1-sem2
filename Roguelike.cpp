@@ -20,12 +20,13 @@ int leaderboardScore;
 vector < pair <int, string>> vScore; //creates avector and pairs the values within the text file
 
 Character character;
-int willWalkIntoSomebody = 0;
+int willWalkIntoSomebody = 0, playerAlreadyPlaced = 0;
 string lastTurnsMessages;
-char map[40][20];
+char map[100][100];
 int main()
 {
-	int monsterPresentHere = 0, playerAlreadyPlaced = 0;
+	srand (time(NULL));
+	int monsterPresentHere = 0;
 	cout << "Choices: \n1 start playing, 2 manual, 3 View Leaderboards What do you choose? ";
 	int choice = 0;
 	cin >> choice;
@@ -58,12 +59,18 @@ int main()
 		break;
 	}
 
-
-    Dungeon d(40,20);
-    d.generate(20);
-    for (int i=0; i<40; i++)
+	int mapX, mapY, mapFeatures;
+	mapX=rand()%40 + 10;
+	//srand (time(NULL));
+	mapY=rand()%30 + 10;
+	//srand (time(NULL));
+	mapFeatures = rand()%20 + 15;
+	//srand (time(NULL));
+    Dungeon d(mapX,mapY);
+    d.generate(mapFeatures);
+    for (int i=0; i<mapX; i++)           //MAP GENERATION
     {
-        for (int j=0; j<20; j++)
+        for (int j=0; j<mapY; j++)
         {
             map[i][j] = d.getTile(i,j);
 			if ((playerAlreadyPlaced == 0) && (map[i][j] == ' '))
@@ -75,6 +82,7 @@ int main()
 			}
         }
     }
+
 
 	monster monsterArray[5];
 
@@ -93,9 +101,9 @@ int main()
 		cout << "XP: " << character.xp << "    LEVEL:" << character.level << "      GOLD:" << character.gold << "    x POSITION:" << character.x << "    y POSITION:"<< character.y << "\n";
 		
 
-		for (int i = 0; i < 40; i++)
+		for (int i = 0; i < 50; i++)
 		{
-			for (int j = 0; j < 20; j++)
+			for (int j = 0; j < 40; j++)
 			{
 				for (int k = 0; k < 2; k++)
 				{
