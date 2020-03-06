@@ -3,9 +3,13 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #pragma once
+
 extern std::string lastTurnsMessages;
 extern char map[100][100];
 extern int willWalkIntoSomebody;
+
+int rand();
+
 class Character
 {
 public:
@@ -15,52 +19,52 @@ public:
 	//void Movement(int Vertical, int Horizontal);
 
 	void Movement(int Vertical, int Horizontal)
-{
-	int x2 = x + Horizontal;	// movement on x-axis
-	int y2 = y + Vertical;		// movement on y-axis
+	{
+		int x2 = x + Horizontal;	// movement on x-axis
+		int y2 = y + Vertical;		// movement on y-axis
 
-	if (map[x2][y] == ' ') // if player moves horizontally the space before becomes an empty space and the space moved to becomes '@'
-	{
-		map[x][y] = ' ';
-		x += Horizontal;
-		map[x][y] = '@';
-	}
-	if (map[x2][y] == '.') // if player moves horizontally the space before becomes an empty space and the space moved to becomes '@'
-	{
-		map[x][y] = ' ';
-		x += Horizontal;
-		map[x][y] = '@';
-	}
-	if (map[x2][y] == 'M')
-	{
-		map[x][y] = ' ';
-		x+=Horizontal;
-		map[x][y] = '@';
-		gold+=rand()%100;
-		srand (time(NULL));
-	}
+		if (map[x2][y] == ' ') // if player moves horizontally the space before becomes an empty space and the space moved to becomes '@'
+		{
+			map[x][y] = ' ';
+			x += Horizontal;
+			map[x][y] = '@';
+		}
+		if (map[x2][y] == '.') // if player moves horizontally the space before becomes an empty space and the space moved to becomes '@'
+		{
+			map[x][y] = ' ';
+			x += Horizontal;
+			map[x][y] = '@';
+		}
+		if (map[x2][y] == 'M')
+		{
+			map[x][y] = ' ';
+			x+=Horizontal;
+			map[x][y] = '@';
+			gold+=rand()%100;
+			srand (time(NULL));
+		}
 
-	if (map[x][y2] == ' ') // if player moves vertically the space before becomes an empty space and the space moved to becomes '@'
-	{
-		map[x][y] = ' ';
-		y += Vertical;
-		map[x][y] = '@';
+		if (map[x][y2] == ' ') // if player moves vertically the space before becomes an empty space and the space moved to becomes '@'
+		{
+			map[x][y] = ' ';
+			y += Vertical;
+			map[x][y] = '@';
+		}
+		if (map[x][y2] == '.') // if player moves vertically the space before becomes an empty space and the space moved to becomes '@'
+		{
+			map[x][y] = ' ';
+			y += Vertical;
+			map[x][y] = '@';
+		}
+		if (map[x][y2] == 'M')
+		{
+			map[x][y] = ' ';
+			y+=Vertical;
+			map[x][y] = '@';
+			gold+=rand()%100;
+			srand (time(NULL));
+		}
 	}
-	if (map[x][y2] == '.') // if player moves vertically the space before becomes an empty space and the space moved to becomes '@'
-	{
-		map[x][y] = ' ';
-		y += Vertical;
-		map[x][y] = '@';
-	}
-	if (map[x][y2] == 'M')
-	{
-		map[x][y] = ' ';
-		y+=Vertical;
-		map[x][y] = '@';
-		gold+=rand()%100;
-		srand (time(NULL));
-	}
-}
 
 
 	void LevelUp()
@@ -108,10 +112,18 @@ class monster
 
 	void getInfo()
 	{
-		std::cout<<"x=";
+		for (int j = 0; j < 2; ++j)
+		{
+			x = rand() % 36;
+
+			y = rand() % 36;
+
+			j += 1;
+		}
+		/*std::cout<<"x=";
 		std::cin>>x;
 		std::cout<<"y=";
-		std::cin>>y;
+		std::cin>>y;*/
 	}
 
 	void wasAttacked(int *playerattack, int *playerxp, int *playertotalxp)
