@@ -61,11 +61,8 @@ int main()
 
 	int mapX, mapY, mapFeatures;
 	mapX=rand()%40 + 10;
-	//srand (time(NULL));
 	mapY=rand()%30 + 10;
-	//srand (time(NULL));
 	mapFeatures = rand()%20 + 15;
-	//srand (time(NULL));
     Dungeon d(mapX,mapY);
     d.generate(mapFeatures);
     for (int i=0; i<mapX; i++)           //MAP GENERATION
@@ -88,8 +85,7 @@ int main()
 
 	for (int i = 0; i < 2; i++)
 	{
-		cout << "Goblin #" << i + 1 << "\nInbetween 1 and 9 please, any other things break the walls\n";
-		monsterArray[i].getInfo();
+		monsterArray[i].getInfo(mapX, mapY);
 	}
 
 	while (gameStarted)						// while the game has started
@@ -98,16 +94,16 @@ int main()
 
 
 		cout << "HP: " << character.health << "/" << character.maxhp << "    BASE DAMAGE:" << character.attack << "    \n";
-		cout << "XP: " << character.xp << "    LEVEL:" << character.level << "      GOLD:" << character.gold << "    x POSITION:" << character.x << "    y POSITION:"<< character.y << "\n";
+		cout << "XP: " << character.xp << "    LEVEL:" << character.level << "      GOLD:" << character.gold << "    x POSITION:" << character.y << "    y POSITION:"<< character.x << "\n";
 		
 
-		for (int i = 0; i < 50; i++)
+		for (int i = 0; i < mapX; i++)
 		{
-			for (int j = 0; j < 40; j++)
+			for (int j = 0; j < mapY; j++)
 			{
 				for (int k = 0; k < 2; k++)
 				{
-					if ((monsterArray[k].x == j) && (monsterArray[k].y == i) && (monsterArray[k].Alive == true)) monsterPresentHere = 1;
+					if ((monsterArray[k].x == i) && (monsterArray[k].y == j) && (monsterArray[k].Alive == true)) monsterPresentHere = 1;
 				}
 				if (monsterPresentHere)           //MAP
 				{
@@ -137,9 +133,7 @@ int main()
 		{
 			for (int i = 0; i < 2; i++)
 			{
-				if ((monsterArray[i].x == character.x) && (monsterArray[i].y == character.y-1) && (monsterArray[i].Alive == true)) monsterArray[i].wasAttacked(&character.attack, &character.xp, &character.totalxp);
-
-
+				if ((character.x == monsterArray[i].x + 1) && (character.y == monsterArray[i].y) && (monsterArray[i].Alive == true))  monsterArray[i].wasAttacked(&character.attack, &character.xp, &character.totalxp);
 				if ((((character.x == monsterArray[i].x - 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x + 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y + 1)) || ((character.x == monsterArray[i].x)) && (character.y == monsterArray[i].y - 1)) && (monsterArray[i].Alive == true))
 				{
 					monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
@@ -150,7 +144,7 @@ int main()
 				character.LevelUp();
 			}
 			for (int i = 0; i < 2; i++)
-				if ((character.x == monsterArray[i].x) && (character.y - 1 == monsterArray[i].y) && (monsterArray[i].Alive == 1))
+			if ((character.x == monsterArray[i].x + 1) && (character.y == monsterArray[i].y) && (monsterArray[i].Alive == true))
 				{
 					willWalkIntoSomebody = 1;
 				}
@@ -170,7 +164,7 @@ int main()
 		{
 			for (int i = 0; i < 2; i++)
 			{
-				if ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y - 1) && (monsterArray[i].Alive == true)) monsterArray[i].wasAttacked(&character.attack, &character.xp, &character.totalxp);
+				if ((character.x == monsterArray[i].x - 1) && (character.y == monsterArray[i].y) && (monsterArray[i].Alive == true)) monsterArray[i].wasAttacked(&character.attack, &character.xp, &character.totalxp);
 				if ((((character.x == monsterArray[i].x - 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x + 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y + 1)) || ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y - 1))) && (monsterArray[i].Alive == true))
 				{
 					monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
@@ -181,7 +175,7 @@ int main()
 				character.LevelUp();
 			}
 			for (int i = 0; i < 2; i++)
-				if ((character.x == monsterArray[i].x) && (character.y + 1 == monsterArray[i].y) && (monsterArray[i].Alive == 1))
+				if ((character.x == monsterArray[i].x - 1) && (character.y == monsterArray[i].y) && (monsterArray[i].Alive == true))
 				{
 					willWalkIntoSomebody = 1;
 				}
@@ -200,7 +194,7 @@ int main()
 		{
 			for (int i = 0; i < 2; i++)
 			{
-				if ((character.x == monsterArray[i].x - 1) && (character.y == monsterArray[i].y) && (monsterArray[i].Alive == true)) monsterArray[i].wasAttacked(&character.attack, &character.xp, &character.totalxp);
+				if ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y - 1) && (monsterArray[i].Alive == true)) monsterArray[i].wasAttacked(&character.attack, &character.xp, &character.totalxp);
 				if ((((character.x == monsterArray[i].x - 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x + 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y + 1)) || ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y - 1))) && (monsterArray[i].Alive == true))
 				{
 					monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
@@ -211,7 +205,7 @@ int main()
 				character.LevelUp();
 			}
 			for (int i = 0; i < 2; i++)
-				if ((character.x + 1 == monsterArray[i].x) && (character.y == monsterArray[i].y) && (monsterArray[i].Alive == 1))
+				if ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y - 1) && (monsterArray[i].Alive == true))
 				{
 					willWalkIntoSomebody = 1;
 				}
@@ -229,7 +223,7 @@ int main()
 		{
 			for (int i = 0; i < 2; i++)
 			{
-				if ((character.x == monsterArray[i].x + 1) && (character.y == monsterArray[i].y) && (monsterArray[i].Alive == true))  monsterArray[i].wasAttacked(&character.attack, &character.xp, &character.totalxp);
+				if ((monsterArray[i].x == character.x) && (monsterArray[i].y == character.y-1) && (monsterArray[i].Alive == true)) monsterArray[i].wasAttacked(&character.attack, &character.xp, &character.totalxp);
 				if ((((character.x == monsterArray[i].x - 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x + 1) && (character.y == monsterArray[i].y)) || ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y + 1)) || ((character.x == monsterArray[i].x) && (character.y == monsterArray[i].y - 1))) && (monsterArray[i].Alive == true))
 				{
 					monsterArray[i].playerAttacked(&character.x, &character.y, &character.health);
@@ -240,7 +234,7 @@ int main()
 				character.LevelUp();
 			}
 			for (int i = 0; i < 2; i++)
-				if ((character.x - 1 == monsterArray[i].x) && (character.y == monsterArray[i].y) && (monsterArray[i].Alive == 1))
+				if ((monsterArray[i].x == character.x) && (monsterArray[i].y == character.y-1) && (monsterArray[i].Alive == true))
 				{
 					willWalkIntoSomebody = 1;
 				}
